@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kasrlar — interaktiv elektron darslik</title>
+    <meta
+      name="description"
+      content="Kasrlar mavzusi boʻyicha toʻliq interaktiv elektron darslik: nazariya, jonli koʻrgazmali laboratoriyalar, qiziqarli savollar, oʻyinlar, yakuniy test va javoblar kaliti."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ============ YUQORI PANEL ============ -->
+    <div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#boshlash">
+          <span class="brand-mark">
+            <span class="bm-num">1</span><span class="bm-line"></span><span class="bm-den">2</span>
+          </span>
+          <span class="brand-text">Kasrlar<small>interaktiv darslik</small></span>
+        </a>
+
+        <nav class="nav" id="nav">
+          <a href="#b1">Kasr nima?</a>
+          <a href="#b2">Oʻqish</a>
+          <a href="#b3">Taqqoslash</a>
+          <a href="#b4">Teng kasrlar</a>
+          <a href="#b5">Aralash son</a>
+          <a href="#b6">Amallar</a>
+          <a href="#b7">Masalalar</a>
+          <a href="#oyin">Oʻyinlar</a>
+          <a href="#test">Test</a>
+          <a href="#ustoz">Oʻqituvchiga</a>
+        </nav>
+
+        <div class="topbar-tools">
+          <button class="tool rules-btn" id="rulesBtn" title="Barcha qoidalar roʻyxati" aria-expanded="false">
+            <span aria-hidden="true">📜</span><span class="tool-label">Qoidalar</span>
+          </button>
+          <button class="tool" id="teacherBtn" title="Oʻqituvchi rejimi: barcha javoblar ochiladi" aria-pressed="false">
+            <span aria-hidden="true">🎓</span><span class="tool-label">Oʻqituvchi rejimi</span>
+          </button>
+          <button class="tool icon" id="themeBtn" title="Kunduzgi / tungi rejim" aria-label="Mavzuni almashtirish">🌙</button>
+          <button class="tool icon" id="printBtn" title="Chop etish (PDF)" aria-label="Chop etish">🖨️</button>
+          <button class="tool icon nav-toggle" id="navToggle" aria-label="Menyu" aria-expanded="false">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="teacher-banner" id="teacherBanner">
+      🎓 <strong>Oʻqituvchi rejimi yoqilgan.</strong> Barcha toʻgʻri javoblar va izohlar ochiq koʻrinmoqda — oʻquvchilarga proyektorda koʻrsatishdan oldin oʻchirishni unutmang.
+    </div>
+
+    <!-- Qoidalar paneli (JS avtomatik toʻldiradi) -->
+    <div class="rules-backdrop" id="rulesBackdrop" hidden></div>
+    <aside class="rules-panel" id="rulesPanel" hidden aria-label="Qoidalar roʻyxati">
+      <div class="rp-head">
+        <h3>📜 Barcha qoidalar</h3>
+        <button class="rp-close" id="rulesClose" aria-label="Yopish">✕</button>
+      </div>
+      <p class="rp-hint">Qoida ustiga bosing — sahifa oʻsha joyga oʻtadi va qoida yonib koʻrsatiladi.</p>
+      <div class="rp-body" id="rulesList"></div>
+    </aside>
+
+    <main>
+      <!-- ============ HERO ============ -->
+      <section class="hero" id="boshlash">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <h1>Kasrlar<span class="dot">.</span></h1>
+            <p class="lead">
+              Butunni teng boʻlaklarga boʻlishni, kasrlarni oʻqish, taqqoslash, qisqartirish, qoʻshish va ayirishni
+              <strong>bosqichma-bosqich</strong> oʻrganamiz. Har bir mavzudan keyin — qiziqarli savol,
+              darhol javob va tushuntirish.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#b1">📖 Darsni boshlash</a>
+              <a class="btn btn-ghost" href="#oyin">🎮 Oʻyin maydoni</a>
+              <a class="btn btn-ghost" href="#ustoz">🎓 Oʻqituvchiga</a>
+            </div>
+
+            <div class="stats">
+              <div class="stat"><b>7</b><span>katta mavzu</span></div>
+              <div class="stat"><b id="statQuiz">20</b><span>qiziqarli savol</span></div>
+              <div class="stat"><b>5</b><span>jonli laboratoriya</span></div>
+              <div class="stat"><b>100%</b><span>javoblar bilan</span></div>
+            </div>
+          </div>
+
+          <div class="hero-mascot">
+            <figure class="mascot" id="mascot">
+              <div class="mascot-stage">
+                <span class="mascot-halo" aria-hidden="true"></span>
+                <span class="mascot-ring" aria-hidden="true"></span>
+                <img class="mascot-img" src="assets/bilmasvoy.png"
+                     alt="Bilmasvoy — sariq sochli quvnoq qahramon doira diagrammani boʻlaklarga ajratmoqda"
+                     onerror="this.closest('.mascot').classList.add('no-img')" />
+                <span class="mascot-chip" aria-hidden="true">
+                  <b>1</b><i></i><b>4</b>
+                </span>
+              </div>
+              <svg class="mascot-fallback" viewBox="0 0 260 276" role="img"
+                   aria-label="Bilmasvoy — koʻk shlyapa va sariq svitеrda, qoʻlida tort boʻlagini koʻtarib turgan quvnoq qahramon">
+                <defs>
+                  <linearGradient id="mHat" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#6a9dff" /><stop offset="100%" stop-color="#1f5bd0" />
+                  </linearGradient>
+                  <linearGradient id="mSweat" x1="0.2" y1="0" x2="0.9" y2="1">
+                    <stop offset="0%" stop-color="#ffe488" /><stop offset="55%" stop-color="#ffd04f" />
+                    <stop offset="100%" stop-color="#eda91f" />
+                  </linearGradient>
+                  <linearGradient id="mSleeve" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#ffdc6b" /><stop offset="100%" stop-color="#f0ad24" />
+                  </linearGradient>
+                  <linearGradient id="mPie" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#ffd166" /><stop offset="100%" stop-color="#f4a03a" />
+                  </linearGradient>
+                  <clipPath id="mBody">
+                    <path d="M50 276 C50 234 58 208 84 196 C92 190 96 182 98 172 L122 172
+                             C124 182 128 190 136 196 C162 208 170 234 170 276 Z" />
+                  </clipPath>
+                </defs>
+
+                <!-- fon -->
+                <circle cx="124" cy="140" r="118" fill="#e4f0fe" />
+
+                <!-- MAVZU RASMI: tort 4 boʻlakka boʻlingan -->
+                <g>
+                  <circle cx="204" cy="52" r="34" fill="#fff5e2" stroke="#e8a33d" stroke-width="3" />
+                  <path d="M204 52 L204 18 A34 34 0 0 1 238 52 Z" fill="url(#mPie)" />
+                  <path d="M204 52 L238 52 A34 34 0 0 1 204 86 Z" fill="url(#mPie)" />
+                  <path d="M204 52 L204 86 A34 34 0 0 1 170 52 Z" fill="url(#mPie)" />
+                  <line x1="170" y1="52" x2="238" y2="52" stroke="#e8a33d" stroke-width="3" />
+                  <line x1="204" y1="18" x2="204" y2="86" stroke="#e8a33d" stroke-width="3" />
+                  <circle cx="204" cy="52" r="34" fill="none" stroke="#e8a33d" stroke-width="3" />
+                </g>
+
+                <!-- kasr yorligʻi -->
+                <g>
+                  <rect x="202" y="126" width="52" height="46" rx="14" fill="#fff" stroke="#f0b429" stroke-width="3" />
+                  <text x="228" y="147" text-anchor="middle" font-size="17" font-weight="800" fill="#8a5a06" font-family="Segoe UI, sans-serif">1</text>
+                  <line x1="213" y1="152" x2="243" y2="152" stroke="#8a5a06" stroke-width="2.4" />
+                  <text x="228" y="167" text-anchor="middle" font-size="17" font-weight="800" fill="#8a5a06" font-family="Segoe UI, sans-serif">4</text>
+                </g>
+
+                <!-- ============ TANA ============ -->
+                <!-- sviter: qiya yelkali tabiiy siluet -->
+                <path d="M50 276 C50 234 58 208 84 196 C92 190 96 182 98 172 L122 172
+                         C124 182 128 190 136 196 C162 208 170 234 170 276 Z"
+                      fill="url(#mSweat)" stroke="#dda017" stroke-width="3" stroke-linejoin="round" />
+
+                <!-- hajm berish: yorugʻlik va soya -->
+                <g clip-path="url(#mBody)">
+                  <ellipse cx="86" cy="214" rx="34" ry="42" fill="#fff" opacity=".22" />
+                  <path d="M170 200 C176 230 176 258 172 280 L120 280 C150 262 164 232 170 200 Z" fill="#c98a0c" opacity=".16" />
+                  <rect x="40" y="262" width="190" height="20" fill="#a9740a" opacity=".13" />
+                </g>
+
+                <!-- ============ QOʻLLAR ============ -->
+                <!-- chap qoʻl: belga tayangan -->
+                <path d="M76 200 L52 226" stroke="url(#mSleeve)" stroke-width="26" stroke-linecap="round" />
+                <path d="M52 226 L70 248" stroke="url(#mSleeve)" stroke-width="22" stroke-linecap="round" />
+                <path d="M62 238 L76 246" stroke="#f2843c" stroke-width="12" stroke-linecap="round" />
+                <circle cx="80" cy="250" r="12" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.5" />
+                <circle cx="72" cy="243" r="6" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.2" />
+
+                <!-- oʻng qoʻl: tort boʻlagini koʻtargan -->
+                <path d="M144 196 L166 170" stroke="url(#mSleeve)" stroke-width="26" stroke-linecap="round" />
+                <path d="M166 170 L180 140" stroke="url(#mSleeve)" stroke-width="22" stroke-linecap="round" />
+                <path d="M174 152 L188 158" stroke="#f2843c" stroke-width="12" stroke-linecap="round" />
+                <circle cx="184" cy="134" r="12.5" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.5" />
+                <circle cx="174" cy="138" r="6" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.2" />
+
+                <!-- koʻtarilgan tort boʻlagi -->
+                <path d="M184 132 L192 88 A46 46 0 0 1 221 107 Z"
+                      fill="url(#mPie)" stroke="#e8a33d" stroke-width="3" stroke-linejoin="round" />
+
+                <!-- ============ BOʻYIN ============ -->
+                <path d="M99 142 h22 v30 q-11 7 -22 0 z" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.5" />
+                <ellipse cx="110" cy="150" rx="20" ry="8" fill="#e8b088" opacity=".4" />
+
+                <!-- ============ KIYIM QATLAMLARI ============ -->
+                <!-- oq koʻylak V yoqasi -->
+                <path d="M94 168 L110 206 L126 168 Z" fill="#fdfaf3" stroke="#ded5c5" stroke-width="1.6" />
+                <!-- sviter yoqasi (trikotaj hoshiya) -->
+                <path d="M90 166 L110 208 L130 166" fill="none" stroke="#f2843c" stroke-width="9"
+                      stroke-linejoin="round" stroke-linecap="round" />
+                <!-- koʻylak yoqa uchlari -->
+                <path d="M93 166 L110 190 L99 196 Z" fill="#fdfaf3" stroke="#ded5c5" stroke-width="1.6" stroke-linejoin="round" />
+                <path d="M127 166 L110 190 L121 196 Z" fill="#fdfaf3" stroke="#ded5c5" stroke-width="1.6" stroke-linejoin="round" />
+                <!-- yashil kapalak-galstuk -->
+                <path d="M110 194 L93 185 L93 205 Z" fill="#16a37b" stroke="#0e7a5b" stroke-width="2" stroke-linejoin="round" />
+                <path d="M110 194 L127 185 L127 205 Z" fill="#16a37b" stroke="#0e7a5b" stroke-width="2" stroke-linejoin="round" />
+                <circle cx="110" cy="194" r="6" fill="#1abc8a" stroke="#0e7a5b" stroke-width="2" />
+
+                <!-- cho'ntak va qalam -->
+                <path d="M141 196 l7 -2 8 30 -7 2 z" fill="#ffb703" stroke="#d98c05" stroke-width="1.6" stroke-linejoin="round" />
+                <path d="M141 196 l7 -2 -5 -9 z" fill="#f2e2c4" stroke="#d98c05" stroke-width="1.4" stroke-linejoin="round" />
+                <path d="M143 187 l-1.5 -2.5 2.5 -0.7 z" fill="#3a3a4a" />
+                <rect x="130" y="212" width="34" height="30" rx="7" fill="#f7c33f" stroke="#dda017" stroke-width="2.5" />
+                <line x1="130" y1="220" x2="164" y2="220" stroke="#f2843c" stroke-width="4" />
+
+                <!-- koʻkrakdagi nishon: kasr belgisi -->
+                <circle cx="80" cy="218" r="15" fill="#fff" stroke="#2f6fed" stroke-width="3" />
+                <path d="M80 218 L80 203 A15 15 0 0 1 80 233 Z" fill="#2f6fed" />
+                <line x1="65" y1="218" x2="95" y2="218" stroke="#2f6fed" stroke-width="2" />
+
+                <!-- ============ BOSH ============ -->
+                <circle cx="68" cy="122" r="9" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.5" />
+                <circle cx="152" cy="122" r="9" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.5" />
+                <circle cx="110" cy="116" r="44" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.5" />
+
+                <!-- sochlar -->
+                <circle cx="76" cy="100" r="11" fill="#ffcf4a" />
+                <circle cx="144" cy="100" r="11" fill="#ffcf4a" />
+                <circle cx="90" cy="88" r="10" fill="#ffcf4a" />
+                <circle cx="130" cy="88" r="10" fill="#ffcf4a" />
+
+                <!-- shlyapa -->
+                <ellipse cx="110" cy="86" rx="64" ry="15" fill="url(#mHat)" />
+                <path d="M78 84 q0 -42 32 -42 q32 0 32 42 z" fill="url(#mHat)" />
+                <ellipse cx="110" cy="84" rx="32" ry="8" fill="#1746a8" opacity=".45" />
+                <ellipse cx="98" cy="58" rx="9" ry="6" fill="#fff" opacity=".3" transform="rotate(-24 98 58)" />
+
+                <!-- shlyapadagi nishon -->
+                <circle cx="136" cy="64" r="11" fill="#fff5e2" stroke="#e8a33d" stroke-width="2.5" />
+                <path d="M136 64 L136 53 A11 11 0 0 1 147 64 Z" fill="#f4a03a" />
+
+                <!-- koʻzlar -->
+                <ellipse cx="94" cy="120" rx="13" ry="15" fill="#fff" stroke="#e8b088" stroke-width="1.6" />
+                <ellipse cx="126" cy="120" rx="13" ry="15" fill="#fff" stroke="#e8b088" stroke-width="1.6" />
+                <circle cx="96" cy="122" r="7" fill="#2b2b3c" />
+                <circle cx="128" cy="122" r="7" fill="#2b2b3c" />
+                <circle cx="99" cy="118" r="2.8" fill="#fff" />
+                <circle cx="131" cy="118" r="2.8" fill="#fff" />
+                <path d="M82 104 q10 -7 21 -3" stroke="#c9a06a" stroke-width="2.8" fill="none" stroke-linecap="round" />
+                <path d="M117 101 q11 -4 21 3" stroke="#c9a06a" stroke-width="2.8" fill="none" stroke-linecap="round" />
+
+                <!-- burun va tabassum -->
+                <ellipse cx="110" cy="134" rx="6" ry="5" fill="#f4c39c" stroke="#e0a878" stroke-width="1.5" />
+                <path d="M96 143 q14 17 28 0 q-14 9 -28 0 z" fill="#c1573f" />
+
+                <!-- sepkil va yonoqlar -->
+                <g fill="#dd9a70">
+                  <circle cx="82" cy="132" r="1.9" /><circle cx="88" cy="138" r="1.9" />
+                  <circle cx="79" cy="140" r="1.7" />
+                  <circle cx="138" cy="132" r="1.9" /><circle cx="132" cy="138" r="1.9" />
+                  <circle cx="141" cy="140" r="1.7" />
+                </g>
+                <circle cx="80" cy="136" r="10" fill="#ff9aa8" opacity=".32" />
+                <circle cx="140" cy="136" r="10" fill="#ff9aa8" opacity=".32" />
+
+                <!-- yulduzchalar -->
+                <path d="M38 112 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 z" fill="#f5a524" opacity=".85" />
+                <path d="M28 178 l2.6 6 6 2.6 -6 2.6 -2.6 6 -2.6 -6 -6 -2.6 6 -2.6 z" fill="#16a37b" opacity=".7" />
+                <path d="M214 206 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="#7b61ff" opacity=".7" />
+              </svg>
+              <figcaption>
+                <strong>Bilmasvoy</strong>
+                <span>“Men ham kasrlarni bilmayman — keling, birga oʻrganamiz!”</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 1-BOʻLIM ============ -->
+      <section class="container chapter" id="b1">
+        <header class="ch-head">
+          <span class="ch-num">1-boʻlim</span>
+          <h2>Kasr nima? Nima uchun u kerak boʻlib qoldi?</h2>
+          <p class="ch-sub">
+            Butun sonlar hamma narsani ifodalay olmaydi. Yarim olma, chorak soat, uchdan bir stakan — bularni qanday yozamiz?
+            Bu boʻlimda kasr tushunchasini <b>eng boshidan, bosqichma-bosqich</b> oʻrganamiz.
+          </p>
+          <div class="ch-toc">
+            <span>Boʻlim rejasi:</span>
+            <b>1.1</b> Hayotda kasrlar · <b>1.2</b> Butun nima · <b>1.3</b> Kasrning tuzilishi ·
+            <b>1.4</b> Teng boʻlaklar sharti · <b>1.5</b> Turlicha tasvirlash · <b>1.6</b> Kasr va boʻlish ·
+            <b>1.7</b> Boʻlak kattaligi · <b>1.8</b> Maxsus holatlar
+          </div>
+        </header>
+
+        <div class="story">
+          <div class="story-badge">📚 Hikoya</div>
+          <div class="story-avatar" aria-hidden="true">
+            <img class="avatar-img" src="assets/bilmasvoy-avatar.png" alt=""
+                 onerror="this.closest('.story-avatar').classList.add('no-img')" />
+            <svg class="avatar-fallback" viewBox="0 0 130 130" role="img">
+              <defs>
+                <linearGradient id="aHat" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#5b95ff" /><stop offset="100%" stop-color="#1f5bd0" />
+                </linearGradient>
+              </defs>
+              <circle cx="65" cy="66" r="60" fill="#e4f0fe" />
+              <circle cx="33" cy="76" r="8" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.2" />
+              <circle cx="97" cy="76" r="8" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.2" />
+              <circle cx="65" cy="72" r="38" fill="#ffdfc4" stroke="#e8b088" stroke-width="2.2" />
+              <circle cx="37" cy="58" r="10" fill="#ffcf4a" />
+              <circle cx="93" cy="58" r="10" fill="#ffcf4a" />
+              <ellipse cx="65" cy="46" rx="56" ry="13" fill="url(#aHat)" />
+              <path d="M37 44 q0 -36 28 -36 q28 0 28 36 z" fill="url(#aHat)" />
+              <ellipse cx="65" cy="44" rx="28" ry="7" fill="#1746a8" opacity=".45" />
+              <circle cx="88" cy="26" r="9" fill="#fff5e2" stroke="#e8a33d" stroke-width="2.2" />
+              <path d="M88 26 L88 17 A9 9 0 0 1 97 26 Z" fill="#f4a03a" />
+              <ellipse cx="52" cy="76" rx="11" ry="13" fill="#fff" stroke="#e8b088" stroke-width="1.5" />
+              <ellipse cx="79" cy="76" rx="11" ry="13" fill="#fff" stroke="#e8b088" stroke-width="1.5" />
+              <circle cx="54" cy="78" r="6" fill="#2b2b3c" />
+              <circle cx="81" cy="78" r="6" fill="#2b2b3c" />
+              <circle cx="56.5" cy="74.5" r="2.4" fill="#fff" />
+              <circle cx="83.5" cy="74.5" r="2.4" fill="#fff" />
+              <path d="M42 62 q9 -6 18 -2" stroke="#c9a06a" stroke-width="2.4" fill="none" stroke-linecap="round" />
+              <path d="M71 60 q9 -4 18 2" stroke="#c9a06a" stroke-width="2.4" fill="none" stroke-linecap="round" />
+              <ellipse cx="65" cy="88" rx="5" ry="4.2" fill="#f4c39c" stroke="#e0a878" stroke-width="1.4" />
+              <path d="M53 96 q12 15 24 0 q-12 8 -24 0 z" fill="#c1573f" />
+              <g fill="#dd9a70">
+                <circle cx="41" cy="87" r="1.6" /><circle cx="46" cy="92" r="1.6" />
+                <circle cx="89" cy="87" r="1.6" /><circle cx="84" cy="92" r="1.6" />
+              </g>
+              <circle cx="41" cy="90" r="8.5" fill="#ff9aa8" opacity=".32" />
+              <circle cx="89" cy="90" r="8.5" fill="#ff9aa8" opacity=".32" />
+            </svg>
+          </div>
+          <p>
+            Bilmasvoyning tugʻilgan kuni. Stolda <strong>bitta</strong> tort turibdi, mehmon esa <strong>toʻrtta</strong>.
+            “Har birimizga bittadan tort yoʻq-ku!” — deydi doʻsti. Bilmasvoy pichoqni oladi va tortni
+            <strong>4 ta teng boʻlakka</strong> boʻladi. Endi har kimga <em>bitta boʻlak</em> tegadi.
+            Ana shu boʻlakning nomi bor: <b class="hl">1/4</b> — “toʻrtdan bir”.
+          </p>
+          <p class="story-tip">
+            💡 Demak, kasr — bu <strong>butunni teng boʻlaklarga boʻlganda</strong> paydo boʻladigan son.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <article class="card sci">
+            <h3>📐 Ilmiy taʼrif</h3>
+            <p>
+              <strong>Kasr</strong> — butunning teng boʻlaklaridan birini yoki bir nechtasini ifodalovchi son.
+              U <code>a/b</code> koʻrinishida yoziladi, bunda <code>b ≠ 0</code>.
+            </p>
+            <p><b>a</b> — surat (butundan nechta boʻlak olindi),<br /><b>b</b> — maxraj (butun nechta teng boʻlakka boʻlindi).</p>
+          </article>
+
+          <article class="card simple">
+            <h3>🍕 Sodda tilda</h3>
+            <p>
+              Pastdagi son — pitsani <em>nechaga</em> kesganingiz.<br />
+              Yuqoridagi son — siz <em>nechtasini</em> olganingiz.
+            </p>
+            <p class="mini-note">Pitsa 8 ga kesildi, siz 3 tasini oldingiz → <b class="hl">3/8</b>.</p>
+          </article>
+        </div>
+
+        <!-- 1.1 HAYOTDA KASRLAR -->
+        <h3 class="sub-title">1.1 Kasrlar bizni har kuni oʻrab turadi</h3>
+        <p class="para">
+          Kasr — faqat darslikdagi mavzu emas. Siz uni har kuni, hatto sezmagan holda ishlatasiz:
+        </p>
+
+        <div class="life-grid">
+          <div class="life"><span>🕒</span><b>Soat</b><p>“Chorak kam olti” — bu 1/4 soat, yaʼni 15 daqiqa. “Yarim kecha” — kunning 1/2 si.</p></div>
+          <div class="life"><span>🍰</span><b>Oshxona</b><p>Retseptlarda: 1/2 stakan shakar, 3/4 choy qoshiq tuz. Kasrsiz non yopib boʻlmaydi!</p></div>
+          <div class="life"><span>⚽</span><b>Sport</b><p>Futbol oʻyini 2 ta yarim (taym) dan iborat. Basketbolda esa 4 ta chorak bor.</p></div>
+          <div class="life"><span>🎵</span><b>Musiqa</b><p>Notalar butun, yarim, chorak va sakkizdan bir deb ataladi. Musiqa — bu tovushdagi kasrlar.</p></div>
+          <div class="life"><span>💰</span><b>Chegirma</b><p>“50% chegirma” — narxning 1/2 si. “25%” — 1/4 qismi. Foiz ham aslida kasr.</p></div>
+          <div class="life"><span>📏</span><b>Oʻlchov</b><p>Yarim metr, chorak kilogramm, yarim litr — doʻkonda kasrsiz savdo qilib boʻlmaydi.</p></div>
+        </div>
+
+        <div class="fact">
+          <h3>🏺 Bilasizmi?</h3>
+          <p>
+            Kasrlarni birinchi boʻlib <b>qadimgi Misrliklar</b> 4000 yil oldin ishlatishgan. Ular deyarli faqat
+            surati 1 boʻlgan kasrlarni (1/2, 1/3, 1/4 …) tan olishgan va 3/4 ni <b>1/2 + 1/4</b> koʻrinishida yozishgan!
+            Bizning hozirgi kasr yozuvimizni esa <b>al-Xorazmiy</b> va boshqa musulmon olimlari asarlari orqali Yevropa oʻrgangan.
+          </p>
+        </div>
+
+        <!-- 1.2 BUTUN NIMA -->
+        <h3 class="sub-title">1.2 Avval “butun” nima ekanini bilib olaylik</h3>
+        <p class="para">
+          Kasr haqida gapirishdan oldin <b>nimani boʻlayotganimizni</b> aniq bilishimiz kerak. Ana shu boʻlinayotgan
+          narsa <b>butun</b> deb ataladi. Butun har xil koʻrinishda boʻlishi mumkin:
+        </p>
+
+        <div class="three-col">
+          <article class="card whole-card">
+            <span class="whole-tag">1-tur</span>
+            <h4>Bitta predmet</h4>
+            <div class="whole-viz" data-viz="pie" data-num="0" data-den="1"></div>
+            <p>Bitta tort, bitta olma, bitta qogʻoz varaq. Uni kesib, boʻlaklarga ajratamiz.</p>
+          </article>
+
+          <article class="card whole-card">
+            <span class="whole-tag">2-tur</span>
+            <h4>Predmetlar toʻplami</h4>
+            <div class="set-viz">
+              <span>🍎</span><span>🍎</span><span>🍎</span>
+              <span>🍎</span><span>🍎</span><span>🍎</span>
+            </div>
+            <p>6 ta olma ham bitta butun boʻla oladi. Unda 1 ta olma — butunning 1/6 qismi.</p>
+          </article>
+
+          <article class="card whole-card">
+            <span class="whole-tag">3-tur</span>
+            <h4>Oʻlchov birligi</h4>
+            <div class="whole-viz" data-viz="bar" data-num="0" data-den="4"></div>
+            <p>1 soat, 1 metr, 1 litr, 1 kilogramm. Bularni ham boʻlaklarga ajratish mumkin.</p>
+          </article>
+        </div>
+
+        <p class="para">
+          Butunni <b>teng boʻlaklarga</b> ajratsak — <b>boʻlak</b> hosil boʻladi. Kasr esa shu boʻlaklarni
+          son bilan yozishga yordam beradi. Boshqacha aytganda:
+        </p>
+
+        <div class="formula-strip">
+          <span>BUTUN</span><i>➜</i><span>TENG BOʻLAKLAR</span><i>➜</i><span class="fs-final">KASR</span>
+        </div>
+
+        <!-- 1.3 kasr anatomiyasi -->
+        <div class="anatomy">
+          <h3 class="sub-title">1.3 Kasrning tuzilishi</h3>
+          <div class="anatomy-box">
+            <div class="anat-frac">
+              <span class="anat-num">3</span>
+              <span class="anat-bar"></span>
+              <span class="anat-den">8</span>
+            </div>
+            <ul class="anat-legend">
+              <li><b class="c-blue">SURAT</b> — nechta boʻlak olindi (3 ta)</li>
+              <li><b class="c-grey">KASR CHIZIGʻI</b> — “boʻlish” belgisi (3 : 8)</li>
+              <li><b class="c-green">MAXRAJ</b> — butun nechaga boʻlindi (8 ga)</li>
+            </ul>
+            <div class="anat-viz" data-viz="pie" data-num="3" data-den="8"></div>
+          </div>
+        </div>
+
+        <!-- 1.4 muhim qoida -->
+        <h3 class="sub-title">1.4 Eng muhim shart</h3>
+        <div class="warn" data-rule="gold" data-title="Boʻlaklar albatta TENG boʻlishi kerak">
+          <h3>Boʻlaklar TENG boʻlishi kerak!</h3>
+          <div class="warn-grid">
+            <div class="warn-item ok">
+              <div class="wviz" data-viz="pie" data-num="1" data-den="4"></div>
+              <p><b>✅ Toʻgʻri</b><br />Toʻrtta teng boʻlak. Bittasi = 1/4</p>
+            </div>
+            <div class="warn-item bad">
+              <div class="wviz">
+                <svg viewBox="0 0 120 120" role="img" aria-label="Notekis boʻlingan doira">
+                  <circle cx="60" cy="60" r="54" fill="var(--viz-empty)" stroke="var(--viz-stroke)" stroke-width="3" />
+                  <path d="M60 60 L60 6 A54 54 0 0 1 112 48 Z" fill="var(--viz-fill)" />
+                  <line x1="60" y1="60" x2="112" y2="48" stroke="var(--viz-stroke)" stroke-width="3" />
+                  <line x1="60" y1="60" x2="30" y2="106" stroke="var(--viz-stroke)" stroke-width="3" />
+                  <line x1="60" y1="60" x2="8" y2="72" stroke="var(--viz-stroke)" stroke-width="3" />
+                  <line x1="60" y1="60" x2="60" y2="6" stroke="var(--viz-stroke)" stroke-width="3" />
+                </svg>
+              </div>
+              <p><b>❌ Notoʻgʻri</b><br />Boʻlaklar har xil. Buni 1/4 deb boʻlmaydi!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.5 BIR KASRNI TURLICHA TASVIRLASH -->
+        <h3 class="sub-title">1.5 Bitta kasrning toʻrtta “qiyofasi”</h3>
+        <p class="para">
+          Bir xil kasrni butunlay boshqacha rasm bilan koʻrsatish mumkin. Rasm oʻzgaradi, lekin
+          <b>maʼnosi oʻzgarmaydi</b>: “butun 4 ta teng boʻlakka boʻlindi, shundan 3 tasi olindi”.
+          Quyida <b>3/4</b> kasrining toʻrtta koʻrinishi berilgan — har birida <b>butun nima</b> ekaniga
+          eʼtibor bering, chunki asosiy farq shunda.
+        </p>
+
+        <div class="repr-grid">
+          <!-- 1 -->
+          <article class="repr">
+            <div class="repr-head"><span class="repr-n">1</span><h4>Doira modeli</h4></div>
+            <div class="repr-viz" data-viz="pie" data-num="3" data-den="4"></div>
+            <p class="repr-def"><b>Butun</b> — butun doira. <b>Boʻlak</b> — bitta sektor (“tilim”).</p>
+            <p>
+              Doira yopiq shakl boʻlgani uchun butunning qayerda tugashi darrov koʻrinadi. Shuning
+              uchun kasr bilan <b>tanishishda</b> eng qulay model shu.
+            </p>
+            <p class="repr-read">Oʻqilishi: 4 ta tilimdan 3 tasi boʻyalgan → <b>3/4</b></p>
+            <p class="repr-where">🍕 Hayotda: tort, pitsa, soat siferblati</p>
+          </article>
+
+          <!-- 2 -->
+          <article class="repr">
+            <div class="repr-head"><span class="repr-n">2</span><h4>Lenta (uzunlik) modeli</h4></div>
+            <div class="repr-viz" data-viz="bar" data-num="3" data-den="4"></div>
+            <p class="repr-def"><b>Butun</b> — lentaning butun uzunligi. <b>Boʻlak</b> — bitta katakcha.</p>
+            <p>
+              Lentalarni bir-birining ustiga qoʻyib solishtirish oson. Shuning uchun bu model
+              kasrlarni <b>taqqoslash, qoʻshish va ayirish</b>da eng koʻp ishlatiladi.
+            </p>
+            <p class="repr-read">Oʻqilishi: 4 ta katakdan 3 tasi toʻlgan → <b>3/4</b></p>
+            <p class="repr-where">📏 Hayotda: shokolad plitkasi, chizgʻich, yoʻl uzunligi</p>
+          </article>
+
+          <!-- 3 -->
+          <article class="repr">
+            <div class="repr-head"><span class="repr-n">3</span><h4>Toʻplam (miqdor) modeli</h4></div>
+            <div class="repr-viz">
+              <div class="set-viz small">
+                <span class="on">🍬</span><span class="on">🍬</span><span class="on">🍬</span><span>🍬</span>
+              </div>
+            </div>
+            <p class="repr-def"><b>Butun</b> — 4 ta konfetdan iborat guruh. <b>Boʻlak</b> — 1 ta konfet.</p>
+            <p>
+              Bu yerda hech narsa kesilmaydi! Butun — <b>predmetlar guruhi</b>, kasr esa shu guruhning
+              qanchasi haqida gapiradi. Aynan shu model keyinchalik <b>“sonning kasrini topish”</b>ga olib boradi.
+            </p>
+            <p class="repr-read">Oʻqilishi: 4 ta konfetdan 3 tasi olindi → <b>3/4</b></p>
+            <p class="repr-where">🍬 Hayotda: sinfdagi oʻquvchilar, savatdagi olmalar, pul</p>
+          </article>
+
+          <!-- 4 -->
+          <article class="repr">
+            <div class="repr-head"><span class="repr-n">4</span><h4>Son oʻqi modeli</h4></div>
+            <div class="repr-viz">
+              <svg viewBox="0 0 240 74" role="img" aria-label="Son oʻqida 3/4 nuqtasi">
+                <line x1="18" y1="46" x2="222" y2="46" stroke="var(--viz-stroke)" stroke-width="3" stroke-linecap="round" />
+                <path d="M222 46 l-9 -5 v10 z" fill="var(--viz-stroke)" />
+                <line x1="24" y1="34" x2="24" y2="58" stroke="var(--ink-2)" stroke-width="3" />
+                <line x1="204" y1="34" x2="204" y2="58" stroke="var(--ink-2)" stroke-width="3" />
+                <line x1="69" y1="38" x2="69" y2="54" stroke="var(--viz-stroke)" stroke-width="2" />
+                <line x1="114" y1="38" x2="114" y2="54" stroke="var(--viz-stroke)" stroke-width="2" />
+                <line x1="159" y1="38" x2="159" y2="54" stroke="var(--viz-stroke)" stroke-width="2" />
+                <line x1="24" y1="46" x2="159" y2="46" stroke="var(--viz-fill)" stroke-width="5" stroke-linecap="round" />
+                <circle cx="159" cy="46" r="8" fill="var(--viz-fill)" />
+                <text x="24" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">0</text>
+                <text x="204" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">1</text>
+                <text x="159" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="var(--viz-fill)">3/4</text>
+                <text x="122" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink-2)">0 dan 1 gacha — bitta butun</text>
+              </svg>
+            </div>
+            <p class="repr-def"><b>Butun</b> — 0 dan 1 gacha boʻlgan masofa. <b>Boʻlak</b> — shu masofaning 1/4 qismi.</p>
+            <p>
+              Eng muhim model: u kasr ham <b>oddiy son</b> ekanini koʻrsatadi. Kasrni 1, 2, 3 kabi
+              son oʻqiga qoʻyish mumkin — u shunchaki butun sonlar <b>orasida</b> turadi.
+            </p>
+            <p class="repr-read">Oʻqilishi: 0 dan 3 ta qadam tashladik, jami 4 ta qadam bor → <b>3/4</b></p>
+            <p class="repr-where">📐 Hayotda: termometr, chizgʻich, tarozi shkalasi</p>
+          </article>
+        </div>
+
+        <div class="repr-note">
+          <b>🔑 Asosiy fikr:</b> toʻrtala rasm ham bitta narsani aytmoqda — <b>3/4</b>. Kasrni tushunish uchun
+          har safar oʻzingizga ikkita savol bering:
+          <span class="rn-q">1) Bu yerda <u>butun</u> nima?</span>
+          <span class="rn-q">2) U <u>nechta teng boʻlakka</u> boʻlingan?</span>
+        </div>
+
+        <!-- 1.6 KASR — BOʻLISH -->
+        <h3 class="sub-title">1.6 Kasr chizigʻi — bu boʻlish belgisi</h3>
+        <div class="two-col">
+          <article class="card" data-rule="rule" data-title="Kasr chizigʻi — boʻlish belgisi: a/b = a : b">
+            <h3>➗ Kasr = boʻlish</h3>
+            <p>Kasr chizigʻi aslida <b>“:”</b> belgisining oʻzi. Shuning uchun:</p>
+            <div class="step-eq"><span>3/4</span><span class="arr">=</span><span>3 : 4</span></div>
+            <p class="mini-note">
+              3 ta nonni 4 bolaga teng boʻlsak, har biriga 3/4 nondan tegadi. Butun sonlarda bunday
+              boʻlishni bajarib boʻlmaydi — kasrlar aynan shuning uchun kerak boʻlgan.
+            </p>
+          </article>
+
+          <article class="card" data-rule="gold" data-title="Maxraj hech qachon 0 boʻlmaydi (b ≠ 0)">
+            <h3>Maxraj hech qachon 0 boʻlmaydi</h3>
+            <p>
+              Maxraj — butun <em>nechaga</em> boʻlinganini bildiradi. “Nolga boʻlish” esa maʼnoga ega emas:
+              tortni <b>0 ta</b> boʻlakka boʻlib boʻlmaydi.
+            </p>
+            <div class="big-eq">a/b  →  b ≠ 0</div>
+            <p class="mini-note">Diqqat: <b>surat</b> 0 boʻlishi mumkin (0/5 = 0), lekin <b>maxraj</b> — hech qachon.</p>
+          </article>
+        </div>
+
+        <!-- 1.7 MAXRAJ VA BOʻLAK KATTALIGI -->
+        <h3 class="sub-title">1.7 Maxraj qancha katta boʻlsa, boʻlak shuncha kichik</h3>
+
+        <div class="rule-box gold" data-rule="gold" data-title="Maxraj katta boʻlsa, boʻlak kichik boʻladi">
+          <h3>Maxraj katta = boʻlak kichik</h3>
+          <p>
+            Bu qoida bolalarga koʻpincha teskari tuyuladi: “8 soni 2 dan katta-ku, unda 1/8 ham 1/2 dan katta emasmi?”
+            Yoʻq! Butun oʻzgarmaydi, faqat u <b>koʻproq kishiga boʻlinadi</b> — demak har kimga <b>kamroq</b> tegadi.
+          </p>
+          <div class="big-eq">1/2 &gt; 1/4 &gt; 1/8</div>
+        </div>
+
+        <div class="size-row">
+          <div class="size-item"><div data-viz="pie" data-num="1" data-den="2"></div><b>1/2</b><span>2 kishiga boʻlindi — katta boʻlak</span></div>
+          <span class="size-gt">&gt;</span>
+          <div class="size-item"><div data-viz="pie" data-num="1" data-den="4"></div><b>1/4</b><span>4 kishiga boʻlindi — oʻrtacha</span></div>
+          <span class="size-gt">&gt;</span>
+          <div class="size-item"><div data-viz="pie" data-num="1" data-den="8"></div><b>1/8</b><span>8 kishiga boʻlindi — kichik boʻlak</span></div>
+        </div>
+
+        <!-- 1.8 MAXSUS HOLATLAR -->
+        <h3 class="sub-title">1.8 Uchta maxsus holat</h3>
+        <div class="three-col">
+          <article class="card special">
+            <div class="sp-eq">4/4 = 1</div>
+            <p>Surat va maxraj <b>teng</b> boʻlsa — butunning hammasi olingan, yaʼni <b>1 butun</b>.</p>
+            <div class="sp-viz" data-viz="pie" data-num="4" data-den="4"></div>
+          </article>
+          <article class="card special">
+            <div class="sp-eq">0/4 = 0</div>
+            <p>Surat <b>0</b> boʻlsa — hech qanday boʻlak olinmagan, yaʼni <b>hech nima</b>.</p>
+            <div class="sp-viz" data-viz="pie" data-num="0" data-den="4"></div>
+          </article>
+          <article class="card special">
+            <div class="sp-eq">5/1 = 5</div>
+            <p>Maxraj <b>1</b> boʻlsa — butun umuman boʻlinmagan. Demak har qanday butun son ham kasr koʻrinishida yozilishi mumkin.</p>
+            <div class="sp-viz" data-viz="pie" data-num="5" data-den="1"></div>
+          </article>
+        </div>
+
+        <!-- LABORATORIYA 1 -->
+        <div class="lab" id="lab1">
+          <div class="lab-head">
+            <h3>🧪 Laboratoriya: kasrni oʻzingiz yasang</h3>
+            <p>Tugmalarni bosib surat va maxrajni oʻzgartiring — rasm, oʻqilishi va qiymati darhol yangilanadi.</p>
+          </div>
+
+          <div class="lab-body">
+            <div class="lab-controls">
+              <div class="ctrl">
+                <label for="labNum">Surat (nechta olindi)</label>
+                <div class="stepper">
+                  <button data-step="num" data-dir="-1" aria-label="Suratni kamaytirish">−</button>
+                  <output id="labNum">3</output>
+                  <button data-step="num" data-dir="1" aria-label="Suratni oshirish">+</button>
+                </div>
+              </div>
+              <div class="ctrl">
+                <label for="labDen">Maxraj (nechaga boʻlindi)</label>
+                <div class="stepper">
+                  <button data-step="den" data-dir="-1" aria-label="Maxrajni kamaytirish">−</button>
+                  <output id="labDen">4</output>
+                  <button data-step="den" data-dir="1" aria-label="Maxrajni oshirish">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="lab-stage">
+              <div class="lab-viz" id="labPie"></div>
+              <div class="lab-viz wide" id="labBar"></div>
+            </div>
+
+            <div class="lab-readout">
+              <div class="ro"><span>Yozilishi</span><b id="roFrac">3/4</b></div>
+              <div class="ro"><span>Oʻqilishi</span><b id="roRead">toʻrtdan uch</b></div>
+              <div class="ro"><span>Turi</span><b id="roType">toʻgʻri kasr</b></div>
+              <div class="ro"><span>Oʻnli qiymati</span><b id="roDec">0,75</b></div>
+            </div>
+            <p class="lab-hint" id="labHint"></p>
+          </div>
+        </div>
+
+        <!-- 1-BOʻLIM XULOSASI -->
+        <div class="recap">
+          <h3>📌 1-boʻlim xulosasi</h3>
+          <ul>
+            <li><b>Butun</b> — boʻlinayotgan narsa (predmet, toʻplam yoki oʻlchov).</li>
+            <li><b>Kasr</b> — butunning teng boʻlaklarini ifodalovchi son.</li>
+            <li><b>Surat</b> (tepada) — nechta boʻlak olindi. <b>Maxraj</b> (pastda) — butun nechaga boʻlindi.</li>
+            <li>Boʻlaklar <b>albatta teng</b> boʻlishi kerak.</li>
+            <li>Kasr chizigʻi — <b>boʻlish</b> belgisi: 3/4 = 3 : 4. Maxraj hech qachon 0 boʻlmaydi.</li>
+            <li>Maxraj katta boʻlsa, boʻlak <b>kichik</b> boʻladi: 1/2 &gt; 1/4 &gt; 1/8.</li>
+          </ul>
+        </div>
+
+        <!-- SODDA SAVOLLAR -->
+        <h3 class="sub-title">✏️ Oʻzimizni sinab koʻramiz (sodda misollar)</h3>
+
+        <div class="quiz" data-quiz data-topic="1-boʻlim · sodda">
+          <p class="q-text">Rasmda nechta boʻlak boʻyalgan? Bu qaysi kasr?</p>
+          <div class="q-viz" data-viz="bar" data-num="1" data-den="4"></div>
+          <div class="q-opts">
+            <button class="opt" data-ok>1/4</button>
+            <button class="opt">4/1</button>
+            <button class="opt">1/3</button>
+          </div>
+          <div class="q-exp">Jami 4 ta boʻlak (maxraj = 4), boʻyalgani 1 ta (surat = 1) → <b>1/4</b>.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="1-boʻlim · sodda">
+          <p class="q-text">🍫 Shokolad 5 ta teng boʻlakka boʻlindi. Anvar 2 tasini yedi. U shokoladning qanchasini yedi?</p>
+          <div class="q-viz" data-viz="bar" data-num="2" data-den="5"></div>
+          <div class="q-opts">
+            <button class="opt" data-ok>2/5</button>
+            <button class="opt">5/2</button>
+            <button class="opt">2/3</button>
+          </div>
+          <div class="q-exp">Maxraj — jami boʻlaklar soni (5). Surat — yeyilgan boʻlaklar soni (2). Demak <b>2/5</b>.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="1-boʻlim · sodda">
+          <p class="q-text">Kasrning <b>pastki</b> soni nima deb ataladi?</p>
+          <div class="q-opts">
+            <button class="opt">Surat</button>
+            <button class="opt" data-ok>Maxraj</button>
+            <button class="opt">Butun</button>
+          </div>
+          <div class="q-exp">Pastdagi son — <b>maxraj</b>, u butun nechta teng boʻlakka boʻlinganini koʻrsatadi.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="1-boʻlim · sodda">
+          <p class="q-text">🍕 Bitta pitsa 2 kishiga, xuddi shunday ikkinchi pitsa 8 kishiga boʻlindi. Kimning boʻlagi kattaroq?</p>
+          <div class="q-opts">
+            <button class="opt" data-ok>2 kishiga boʻlingandagisi (1/2)</button>
+            <button class="opt">8 kishiga boʻlingandagisi (1/8)</button>
+            <button class="opt">Ikkalasi teng</button>
+          </div>
+          <div class="q-exp">Odam qancha koʻp boʻlsa, boʻlak shuncha kichik. Shuning uchun <b>1/2 &gt; 1/8</b>.</div>
+        </div>
+      </section>
+
+      <!-- ============ 2-BOʻLIM ============ -->
+      <section class="container chapter" id="b2">
+        <header class="ch-head">
+          <span class="ch-num">2-boʻlim</span>
+          <h2>Kasrni qanday oʻqiymiz va yozamiz?</h2>
+          <p class="ch-sub">Oʻzbek tilida avval maxraj, keyin surat aytiladi: “beshdan ikki”.</p>
+        </header>
+
+        <div class="rule-box gold" data-rule="gold" data-title="Kasrni oʻqish: avval maxraj, keyin surat">
+          <h3>Kasr qanday oʻqiladi</h3>
+          <div class="rule-formula">
+            <span class="rf-den">MAXRAJ</span> dan <span class="rf-num">SURAT</span>
+          </div>
+          <p>Masalan: <b>3/7</b> → “<b>yettidan uch</b>”. Avval pastdagi son, keyin yuqoridagi son.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table class="read-table">
+            <caption>Eng koʻp uchraydigan kasrlar va ularning oʻqilishi</caption>
+            <thead>
+              <tr><th>Rasmi</th><th>Yozilishi</th><th>Oʻqilishi</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><div class="tviz" data-viz="pie" data-num="1" data-den="2"></div></td><td><b>1/2</b></td><td>ikkidan bir</td></tr>
+              <tr><td><div class="tviz" data-viz="pie" data-num="1" data-den="3"></div></td><td><b>1/3</b></td><td>uchdan bir</td></tr>
+              <tr><td><div class="tviz" data-viz="pie" data-num="1" data-den="4"></div></td><td><b>1/4</b></td><td>toʻrtdan bir</td></tr>
+              <tr><td><div class="tviz" data-viz="pie" data-num="3" data-den="4"></div></td><td><b>3/4</b></td><td>toʻrtdan uch</td></tr>
+              <tr><td><div class="tviz" data-viz="pie" data-num="2" data-den="5"></div></td><td><b>2/5</b></td><td>beshdan ikki</td></tr>
+              <tr><td><div class="tviz" data-viz="pie" data-num="5" data-den="8"></div></td><td><b>5/8</b></td><td>sakkizdan besh</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Kasrni oʻqish">
+          <p class="q-text">“Yettidan toʻrt” kasri qanday yoziladi?</p>
+          <div class="q-opts">
+            <button class="opt">7/4</button>
+            <button class="opt" data-ok>4/7</button>
+            <button class="opt">4 · 7</button>
+            <button class="opt">7 − 4</button>
+          </div>
+          <div class="q-exp">“Yettidan” — maxraj 7 (pastda), “toʻrt” — surat 4 (tepada). Demak <b>4/7</b>.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Kasrni oʻqish">
+          <p class="q-text">🕐 Soat 15 daqiqa yurdi. Bu bir soatning qanchasi?</p>
+          <div class="q-opts">
+            <button class="opt">1/2 (yarim soat)</button>
+            <button class="opt" data-ok>1/4 (chorak soat)</button>
+            <button class="opt">1/15</button>
+            <button class="opt">15/1</button>
+          </div>
+          <div class="q-exp">Bir soat = 60 daqiqa. 60 ni 4 ga boʻlsak 15 chiqadi → 15 daqiqa = <b>1/4</b> soat, yaʼni “chorak soat”.</div>
+        </div>
+      </section>
+
+      <!-- ============ 3-BOʻLIM ============ -->
+      <section class="container chapter" id="b3">
+        <header class="ch-head">
+          <span class="ch-num">3-boʻlim</span>
+          <h2>Kasrlarni taqqoslash: qaysi biri katta?</h2>
+          <p class="ch-sub">Ikkita oddiy qoida va bitta ajablanarli hodisa.</p>
+        </header>
+
+        <div class="two-col">
+          <article class="card" data-rule="rule" data-title="Maxrajlar teng boʻlsa — surati kattasi katta">
+            <h3>Maxrajlar teng boʻlsa</h3>
+            <p>Maxrajlar bir xil boʻlsa, <b>surati katta</b> boʻlgan kasr katta.</p>
+            <div class="cmp-row">
+              <div class="cmp-side"><div data-viz="bar" data-num="2" data-den="7"></div><b>2/7</b></div>
+              <span class="cmp-sign">&lt;</span>
+              <div class="cmp-side"><div data-viz="bar" data-num="5" data-den="7"></div><b>5/7</b></div>
+            </div>
+            <p class="mini-note">Boʻlaklar bir xil kattalikda — kimda koʻp boʻlsa, oʻsha yutadi.</p>
+          </article>
+
+          <article class="card accent" data-rule="rule" data-title="Suratlar teng boʻlsa — maxraji kichigi katta">
+            <h3>Suratlar teng boʻlsa 🤯</h3>
+            <p>Suratlar bir xil boʻlsa, <b>maxraji kichik</b> boʻlgan kasr katta!</p>
+            <div class="cmp-row">
+              <div class="cmp-side"><div data-viz="pie" data-num="1" data-den="2"></div><b>1/2</b></div>
+              <span class="cmp-sign">&gt;</span>
+              <div class="cmp-side"><div data-viz="pie" data-num="1" data-den="8"></div><b>1/8</b></div>
+            </div>
+            <p class="mini-note">Pitsani 2 kishiga boʻlsangiz — katta boʻlak; 8 kishiga boʻlsangiz — kichkina boʻlak. Odam qancha koʻp boʻlsa, ulush shuncha kichik!</p>
+          </article>
+        </div>
+
+        <div class="numberline-box">
+          <h3 class="sub-title">📏 Son oʻqida kasrlar</h3>
+          <p>0 bilan 1 orasidagi masofa — bu bizning “butun”imiz. Kasr shu masofaning qayerida turishini koʻrsatadi.</p>
+          <div id="numberLine"></div>
+        </div>
+
+        <!-- LABORATORIYA 2 -->
+        <div class="lab" id="lab2">
+          <div class="lab-head">
+            <h3>⚖️ Laboratoriya: taqqoslash tarozisi</h3>
+            <p>Ikkita kasrni tanlang — tarozi qaysi biri ogʻirligini oʻzi aytib beradi.</p>
+          </div>
+          <div class="lab-body">
+            <div class="scale">
+              <div class="scale-side">
+                <div class="pick">
+                  <div class="pick-row"><button data-cmp="a" data-part="num" data-dir="-1">−</button><output id="cmpAn">1</output><button data-cmp="a" data-part="num" data-dir="1">+</button></div>
+                  <div class="pick-line"></div>
+                  <div class="pick-row"><button data-cmp="a" data-part="den" data-dir="-1">−</button><output id="cmpAd">2</output><button data-cmp="a" data-part="den" data-dir="1">+</button></div>
+                </div>
+                <div id="cmpVizA" class="cmp-viz"></div>
+              </div>
+
+              <div class="scale-mid"><span id="cmpSign">?</span></div>
+
+              <div class="scale-side">
+                <div class="pick">
+                  <div class="pick-row"><button data-cmp="b" data-part="num" data-dir="-1">−</button><output id="cmpBn">1</output><button data-cmp="b" data-part="num" data-dir="1">+</button></div>
+                  <div class="pick-line"></div>
+                  <div class="pick-row"><button data-cmp="b" data-part="den" data-dir="-1">−</button><output id="cmpBd">3</output><button data-cmp="b" data-part="den" data-dir="1">+</button></div>
+                </div>
+                <div id="cmpVizB" class="cmp-viz"></div>
+              </div>
+            </div>
+            <p class="lab-hint" id="cmpHint"></p>
+          </div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Taqqoslash">
+          <p class="q-text">🍫 Bir xil ikkita shokolad bor. Birinchisi 3 ta boʻlakka, ikkinchisi 6 ta boʻlakka boʻlingan. Qaysi boʻlak kattaroq?</p>
+          <div class="q-opts">
+            <button class="opt" data-ok>3 ga boʻlingandagi boʻlak (1/3)</button>
+            <button class="opt">6 ga boʻlingandagi boʻlak (1/6)</button>
+            <button class="opt">Ikkalasi teng</button>
+          </div>
+          <div class="q-exp">Maxraj qancha katta boʻlsa, boʻlak shuncha kichik: <b>1/3 &gt; 1/6</b>. Shokoladni kam kishiga boʻlish foydaliroq 😄</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Taqqoslash">
+          <p class="q-text">Qaysi qatorda kasrlar <b>oʻsish tartibida</b> (kichikdan kattaga) joylashgan?</p>
+          <div class="q-opts">
+            <button class="opt">1/2, 1/4, 1/8</button>
+            <button class="opt" data-ok>1/8, 1/4, 1/2</button>
+            <button class="opt">1/4, 1/2, 1/8</button>
+          </div>
+          <div class="q-exp">Suratlar teng boʻlgani uchun maxraj kattasi eng kichik kasr: <b>1/8 &lt; 1/4 &lt; 1/2</b>.</div>
+        </div>
+      </section>
+
+      <!-- ============ 4-BOʻLIM ============ -->
+      <section class="container chapter" id="b4">
+        <header class="ch-head">
+          <span class="ch-num">4-boʻlim</span>
+          <h2>Teng kasrlar va qisqartirish</h2>
+          <p class="ch-sub">Bitta miqdorni turli kasrlar bilan yozish mumkin. 1/2 = 2/4 = 3/6 — bularning hammasi “yarim”!</p>
+        </header>
+
+        <div class="equal-strip">
+          <div class="eq-item"><div data-viz="bar" data-num="1" data-den="2"></div><b>1/2</b></div>
+          <span class="eq-sign">=</span>
+          <div class="eq-item"><div data-viz="bar" data-num="2" data-den="4"></div><b>2/4</b></div>
+          <span class="eq-sign">=</span>
+          <div class="eq-item"><div data-viz="bar" data-num="3" data-den="6"></div><b>3/6</b></div>
+          <span class="eq-sign">=</span>
+          <div class="eq-item"><div data-viz="bar" data-num="4" data-den="8"></div><b>4/8</b></div>
+        </div>
+
+        <div class="two-col">
+          <article class="card gold" data-rule="gold" data-title="Kasrning asosiy xossasi: surat va maxrajni bir xil songa koʻpaytirish/boʻlish">
+            <h3>Kasrning asosiy xossasi</h3>
+            <p>Surat va maxrajni <b>bir xil songa koʻpaytirsak</b> yoki <b>bir xil songa boʻlsak</b>, kasrning qiymati oʻzgarmaydi.</p>
+            <div class="step-eq">
+              <span>1/2</span><span class="arr">×3 ↓↑</span><span>3/6</span>
+            </div>
+            <p class="mini-note">Xuddi pitsani mayda kesgandek: boʻlaklar koʻpaydi, lekin ovqat miqdori oʻsha-oʻsha.</p>
+          </article>
+
+          <article class="card accent" data-rule="rule" data-title="Kasrni qisqartirish — surat va maxrajni EKUB ga boʻlish">
+            <h3>✂️ Kasrni qisqartirish</h3>
+            <p>Qisqartirish — surat va maxrajni <b>umumiy boʻluvchiga</b> boʻlish. Maqsad: kasrni eng sodda koʻrinishga keltirish.</p>
+            <div class="step-eq">
+              <span>12/18</span><span class="arr">: 6</span><span>2/3</span>
+            </div>
+            <p class="mini-note">12 va 18 ning eng katta umumiy boʻluvchisi (EKUB) = 6. Ikkalasini 6 ga boʻldik.</p>
+          </article>
+        </div>
+
+        <!-- LABORATORIYA 3 -->
+        <div class="lab" id="lab3">
+          <div class="lab-head">
+            <h3>✂️ Laboratoriya: qisqartirish mashinasi</h3>
+            <p>Istalgan kasrni kiriting — mashina uni bosqichma-bosqich qisqartirib beradi.</p>
+          </div>
+          <div class="lab-body">
+            <div class="machine">
+              <input type="number" id="redNum" value="12" min="1" max="999" aria-label="Surat" />
+              <span class="machine-bar"></span>
+              <input type="number" id="redDen" value="18" min="1" max="999" aria-label="Maxraj" />
+              <button class="btn btn-primary" id="redBtn">Qisqartir ✂️</button>
+            </div>
+            <div class="machine-out" id="redOut"></div>
+          </div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Teng kasrlar">
+          <p class="q-text">Qaysi kasr <b>1/3</b> ga teng?</p>
+          <div class="q-viz" data-viz="bar" data-num="1" data-den="3"></div>
+          <div class="q-opts">
+            <button class="opt" data-ok>2/6</button>
+            <button class="opt">2/5</button>
+            <button class="opt">1/6</button>
+            <button class="opt">3/4</button>
+          </div>
+          <div class="q-exp">2/6 ni 2 ga qisqartiramiz: 2 : 2 = 1, 6 : 2 = 3 → <b>1/3</b>. Demak 2/6 va 1/3 — teng kasrlar.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Qisqartirish">
+          <p class="q-text"><b>16/24</b> kasrini eng sodda koʻrinishga keltiring.</p>
+          <div class="q-opts">
+            <button class="opt">8/12</button>
+            <button class="opt" data-ok>2/3</button>
+            <button class="opt">4/6</button>
+            <button class="opt">1/2</button>
+          </div>
+          <div class="q-exp">16 va 24 ning EKUB i = 8. 16:8 = 2, 24:8 = 3 → <b>2/3</b>. (8/12 va 4/6 ham teng, lekin ular hali qisqaradi.)</div>
+        </div>
+      </section>
+
+      <!-- ============ 5-BOʻLIM ============ -->
+      <section class="container chapter" id="b5">
+        <header class="ch-head">
+          <span class="ch-num">5-boʻlim</span>
+          <h2>Toʻgʻri kasr, notoʻgʻri kasr va aralash son</h2>
+          <p class="ch-sub">Agar bitta emas, ikkita pitsa boʻlsa-chi?</p>
+        </header>
+
+        <div class="three-col">
+          <article class="card type-card">
+            <span class="type-tag ok">Toʻgʻri kasr</span>
+            <div class="type-viz" data-viz="pie" data-num="3" data-den="4"></div>
+            <p><b>3/4</b> — surat maxrajdan <b>kichik</b>. Qiymati har doim 1 dan kichik.</p>
+          </article>
+          <article class="card type-card">
+            <span class="type-tag warn">Notoʻgʻri kasr</span>
+            <div class="type-viz" data-viz="pie" data-num="7" data-den="4"></div>
+            <p><b>7/4</b> — surat maxrajdan <b>katta</b>. Bitta butun toʻldi va yana ortdi.</p>
+          </article>
+          <article class="card type-card">
+            <span class="type-tag info">Aralash son</span>
+            <div class="type-viz mixed"><span class="mx-int">1</span><span class="mx-frac"><i>3</i><s></s><i>4</i></span></div>
+            <p><b>1 3/4</b> — bitta butun va yana 3/4. Bu 7/4 ning boshqacha yozilishi.</p>
+          </article>
+        </div>
+
+        <div class="convert-box">
+          <div class="conv" data-rule="rule" data-title="Notoʻgʻri kasrdan aralash songa: suratni maxrajga boʻlish">
+            <h3>➡️ Notoʻgʻri kasrdan aralash songa</h3>
+            <p>Suratni maxrajga boʻlamiz. <b>Boʻlinma</b> — butun qism, <b>qoldiq</b> — yangi surat.</p>
+            <div class="conv-steps">
+              <div><span>1</span> 7 : 4 = 1, qoldiq 3</div>
+              <div><span>2</span> Butun = 1, surat = 3, maxraj = 4</div>
+              <div><span>3</span> Javob: <b>1 3/4</b></div>
+            </div>
+          </div>
+          <div class="conv" data-rule="rule" data-title="Aralash sondan notoʻgʻri kasrga: butun × maxraj + surat">
+            <h3>⬅️ Aralash sondan notoʻgʻri kasrga</h3>
+            <p>Butunni maxrajga koʻpaytiramiz va suratni qoʻshamiz.</p>
+            <div class="conv-steps">
+              <div><span>1</span> 2 · 5 = 10</div>
+              <div><span>2</span> 10 + 3 = 13</div>
+              <div><span>3</span> 2 3/5 = <b>13/5</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Aralash son">
+          <p class="q-text">🍕 Stolda 9 ta pitsa boʻlagi bor. Har bir butun pitsa 4 ta boʻlakdan iborat. Bu nechta pitsa?</p>
+          <div class="q-opts">
+            <button class="opt">2 ta pitsa</button>
+            <button class="opt" data-ok>2 butun va yana 1/4 (2 1/4)</button>
+            <button class="opt">4 1/9</button>
+            <button class="opt">3 ta pitsa</button>
+          </div>
+          <div class="q-exp">9 : 4 = 2, qoldiq 1. Demak 9/4 = <b>2 1/4</b> pitsa.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Aralash son">
+          <p class="q-text"><b>3 2/7</b> aralash sonini notoʻgʻri kasrga aylantiring.</p>
+          <div class="q-opts">
+            <button class="opt">21/7</button>
+            <button class="opt" data-ok>23/7</button>
+            <button class="opt">32/7</button>
+            <button class="opt">7/23</button>
+          </div>
+          <div class="q-exp">3 · 7 = 21, keyin 21 + 2 = 23. Maxraj oʻzgarmaydi → <b>23/7</b>.</div>
+        </div>
+      </section>
+
+      <!-- ============ 6-BOʻLIM ============ -->
+      <section class="container chapter" id="b6">
+        <header class="ch-head">
+          <span class="ch-num">6-boʻlim</span>
+          <h2>Kasrlarni qoʻshish va ayirish</h2>
+          <p class="ch-sub">Eng koʻp xato qilinadigan joy shu yerda. Diqqat bilan oʻqing!</p>
+        </header>
+
+        <div class="rule-box gold" data-rule="gold" data-title="Maxrajlar bir xil boʻlsa — faqat suratlar qoʻshiladi, maxraj oʻzgarmaydi">
+          <h3>Maxrajlar bir xil boʻlganda</h3>
+          <p>Suratlarni qoʻshamiz (yoki ayiramiz), <b>maxrajga tegmaymiz</b>.</p>
+          <div class="big-eq">2/7 + 3/7 = <b>5/7</b></div>
+          <div class="eq-viz">
+            <div data-viz="bar" data-num="2" data-den="7"></div>
+            <span>+</span>
+            <div data-viz="bar" data-num="3" data-den="7"></div>
+            <span>=</span>
+            <div data-viz="bar" data-num="5" data-den="7"></div>
+          </div>
+        </div>
+
+        <div class="rule-box danger" data-rule="warn" data-title="Xato: qoʻshishda maxrajlarni ham qoʻshib yuborish">
+          <h3>Eng koʻp uchraydigan xato</h3>
+          <p>Koʻpchilik maxrajlarni ham qoʻshib yuboradi: <s>2/7 + 3/7 = 5/14</s> — bu <b>notoʻgʻri</b>!</p>
+          <p class="mini-note">Oʻylab koʻring: boʻlaklarning kattaligi oʻzgarmadi-ku, faqat soni koʻpaydi. Shuning uchun maxraj oʻsha-oʻsha qoladi.</p>
+        </div>
+
+        <div class="rule-box" data-rule="rule" data-title="Maxrajlar har xil boʻlsa — avval umumiy maxrajga (EKUK) keltirish">
+          <h3>Maxrajlar har xil boʻlganda</h3>
+          <p>Avval <b>umumiy maxrajga</b> keltiramiz (EKUK — eng kichik umumiy karrali), keyin qoʻshamiz.</p>
+          <div class="conv-steps wide">
+            <div><span>1</span> 1/2 + 1/3 → maxrajlar 2 va 3</div>
+            <div><span>2</span> Umumiy maxraj = 6</div>
+            <div><span>3</span> 1/2 = 3/6, &nbsp; 1/3 = 2/6</div>
+            <div><span>4</span> 3/6 + 2/6 = <b>5/6</b></div>
+          </div>
+        </div>
+
+        <!-- LABORATORIYA 4 -->
+        <div class="lab" id="lab4">
+          <div class="lab-head">
+            <h3>➕ Laboratoriya: qoʻshish–ayirish mashinasi</h3>
+            <p>Kasrlarni kiriting — mashina barcha bosqichlarni yozib koʻrsatadi.</p>
+          </div>
+          <div class="lab-body">
+            <div class="machine calc">
+              <div class="frac-input">
+                <input type="number" id="opAn" value="1" min="0" max="99" aria-label="1-kasr surati" />
+                <span class="fi-bar"></span>
+                <input type="number" id="opAd" value="2" min="1" max="99" aria-label="1-kasr maxraji" />
+              </div>
+              <select id="opSign" aria-label="Amal">
+                <option value="+">+</option>
+                <option value="-">−</option>
+              </select>
+              <div class="frac-input">
+                <input type="number" id="opBn" value="1" min="0" max="99" aria-label="2-kasr surati" />
+                <span class="fi-bar"></span>
+                <input type="number" id="opBd" value="3" min="1" max="99" aria-label="2-kasr maxraji" />
+              </div>
+              <button class="btn btn-primary" id="opBtn">Hisobla =</button>
+            </div>
+            <div class="machine-out" id="opOut"></div>
+          </div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Qoʻshish">
+          <p class="q-text"><b>3/8 + 4/8</b> nechaga teng?</p>
+          <div class="q-opts">
+            <button class="opt">7/16</button>
+            <button class="opt" data-ok>7/8</button>
+            <button class="opt">12/8</button>
+            <button class="opt">1/8</button>
+          </div>
+          <div class="q-exp">Maxrajlar bir xil → faqat suratlarni qoʻshamiz: 3 + 4 = 7. Javob <b>7/8</b>. Maxraj 8 boʻlib qoladi!</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Qoʻshish">
+          <p class="q-text">🥤 Aziz stakanning 1/4 qismini, Nodira 2/4 qismini ichdi. Stakanda qancha qoldi?</p>
+          <div class="q-opts">
+            <button class="opt">3/4</button>
+            <button class="opt" data-ok>1/4</button>
+            <button class="opt">2/4</button>
+            <button class="opt">Hech nima qolmadi</button>
+          </div>
+          <div class="q-exp">Ichilgani: 1/4 + 2/4 = 3/4. Butun = 4/4. Qolgani: 4/4 − 3/4 = <b>1/4</b>.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Har xil maxraj">
+          <p class="q-text"><b>1/2 + 1/4</b> nechaga teng?</p>
+          <div class="q-opts">
+            <button class="opt">2/6</button>
+            <button class="opt" data-ok>3/4</button>
+            <button class="opt">1/6</button>
+            <button class="opt">2/4</button>
+          </div>
+          <div class="q-exp">Umumiy maxraj — 4. 1/2 = 2/4. Endi 2/4 + 1/4 = <b>3/4</b>.</div>
+        </div>
+      </section>
+
+      <!-- ============ 7-BOʻLIM ============ -->
+      <section class="container chapter" id="b7">
+        <header class="ch-head">
+          <span class="ch-num">7-boʻlim</span>
+          <h2>Sonning kasrini topish — hayotiy masalalar</h2>
+          <p class="ch-sub">“40 ta olmaning 3/4 qismi” — bu nechta olma?</p>
+        </header>
+
+        <div class="rule-box gold" data-rule="gold" data-title="Sonning kasrini topish: songa boʻl, suratga koʻpaytir">
+          <h3>Sonning kasrini topish</h3>
+          <p><b>Sonni maxrajga boʻlamiz</b>, chiqqan natijani <b>suratga koʻpaytiramiz</b>.</p>
+          <div class="big-eq">40 ning 3/4 qismi = (40 : 4) · 3 = 10 · 3 = <b>30</b></div>
+        </div>
+
+        <div class="task-list">
+          <h3 class="sub-title">📝 Namunali masalalar (yechimi bilan)</h3>
+
+          <details class="task">
+            <summary><b>1-masala.</b> Kitobda 120 bet bor. Anvar kitobning 2/3 qismini oʻqidi. U nechta bet oʻqidi?</summary>
+            <div class="task-sol">
+              <p>1) 120 : 3 = 40 (bir qism nechta bet)</p>
+              <p>2) 40 · 2 = 80</p>
+              <p><b>Javob: 80 bet.</b></p>
+            </div>
+          </details>
+
+          <details class="task">
+            <summary><b>2-masala.</b> Bogʻda 45 tup daraxt bor. Ularning 1/5 qismi olma. Nechta olma daraxti bor?</summary>
+            <div class="task-sol">
+              <p>45 : 5 = 9</p>
+              <p><b>Javob: 9 tup olma daraxti.</b></p>
+            </div>
+          </details>
+
+          <details class="task">
+            <summary><b>3-masala.</b> Dilnoza 60 soʻmlik puldan 3/5 qismini sarfladi. Unda qancha pul qoldi?</summary>
+            <div class="task-sol">
+              <p>1) Sarflagani: (60 : 5) · 3 = 12 · 3 = 36</p>
+              <p>2) Qolgani: 60 − 36 = 24</p>
+              <p>Yoki: qolgan ulush 2/5 → (60 : 5) · 2 = 24</p>
+              <p><b>Javob: 24 soʻm.</b></p>
+            </div>
+          </details>
+
+          <details class="task">
+            <summary><b>4-masala.</b> Sinfda 28 oʻquvchi bor, ularning 4/7 qismi qizlar. Nechta oʻgʻil bola bor?</summary>
+            <div class="task-sol">
+              <p>1) Qizlar: (28 : 7) · 4 = 4 · 4 = 16</p>
+              <p>2) Oʻgʻillar: 28 − 16 = 12</p>
+              <p><b>Javob: 12 ta oʻgʻil bola.</b></p>
+            </div>
+          </details>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Sonning kasri">
+          <p class="q-text">🍎 Savatda 24 ta olma bor. Ularning 1/3 qismi qizil. Nechta qizil olma bor?</p>
+          <div class="q-opts">
+            <button class="opt">3 ta</button>
+            <button class="opt" data-ok>8 ta</button>
+            <button class="opt">12 ta</button>
+            <button class="opt">24 ta</button>
+          </div>
+          <div class="q-exp">24 : 3 = <b>8</b>. Maxrajga boʻlamiz, chunki butun 3 ta teng qismga boʻlingan.</div>
+        </div>
+
+        <div class="quiz" data-quiz data-topic="Sonning kasri">
+          <p class="q-text">🚌 Avtobusda 36 ta oʻrindiq bor, ularning 5/6 qismi band. Nechta boʻsh oʻrindiq qoldi?</p>
+          <div class="q-opts">
+            <button class="opt" data-ok>6 ta</button>
+            <button class="opt">30 ta</button>
+            <button class="opt">5 ta</button>
+            <button class="opt">12 ta</button>
+          </div>
+          <div class="q-exp">Boʻsh ulush = 1/6. 36 : 6 = <b>6</b> ta. (Yoki band: (36:6)·5 = 30 → 36 − 30 = 6.)</div>
+        </div>
+      </section>
+
+      <!-- ============ OʻYINLAR ============ -->
+      <section class="container chapter" id="oyin">
+        <header class="ch-head">
+          <span class="ch-num">Oʻyin maydoni</span>
+          <h2>🎮 Endi oʻynab mustahkamlaymiz</h2>
+          <p class="ch-sub">Bilimingizni sinab koʻring — bu yerda xato qilish mumkin, qoʻrqmang!</p>
+        </header>
+
+        <div class="game-grid">
+          <!-- Pitsa oʻyini -->
+          <div class="game">
+            <h3>🍕 Pitsa ustasi</h3>
+            <p class="game-desc">Boʻlaklarni bosib, koʻrsatilgan kasrni yigʻing.</p>
+            <div class="game-target">Vazifa: <b id="pizzaTarget">3/8</b></div>
+            <div id="pizzaBoard" class="pizza-board"></div>
+            <div class="game-bar">
+              <span id="pizzaCount">0/8</span>
+              <button class="btn btn-primary sm" id="pizzaCheck">Tekshirish</button>
+              <button class="btn btn-ghost sm" id="pizzaNew">Yangi vazifa</button>
+            </div>
+            <div class="game-msg" id="pizzaMsg" aria-live="polite"></div>
+          </div>
+
+          <!-- Katta-kichik duel -->
+          <div class="game">
+            <h3>⚡ Tezkor duel</h3>
+            <p class="game-desc">Qaysi kasr kattaroq? 30 soniyada nechtasini topa olasiz?</p>
+            <div class="duel" id="duelBox">
+              <button class="duel-card" id="duelA">1/2</button>
+              <span class="duel-vs">VS</span>
+              <button class="duel-card" id="duelB">1/3</button>
+            </div>
+            <div class="game-bar">
+              <span id="duelScore">Ochko: 0</span>
+              <span id="duelTime">⏱ 30</span>
+              <button class="btn btn-primary sm" id="duelStart">Boshlash</button>
+            </div>
+            <div class="game-msg" id="duelMsg" aria-live="polite"></div>
+          </div>
+
+          <!-- Juftini top -->
+          <div class="game wide">
+            <h3>🔗 Teng kasrlar juftini top</h3>
+            <p class="game-desc">Bir xil qiymatga ega kartochkalarni juftlab bosing (masalan, 2/4 va 1/2).</p>
+            <div class="match-board" id="matchBoard"></div>
+            <div class="game-bar">
+              <span id="matchScore">Topilgan juftlar: 0 / 6</span>
+              <button class="btn btn-ghost sm" id="matchNew">Qaytadan</button>
+            </div>
+            <div class="game-msg" id="matchMsg" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ YAKUNIY TEST ============ -->
+      <section class="container chapter" id="test">
+        <header class="ch-head">
+          <span class="ch-num">Nazorat</span>
+          <h2>📝 Yakuniy test — 10 ta savol</h2>
+          <p class="ch-sub">Savollar har safar tasodifiy tanlanadi. Oxirida baho va xatolar tahlili koʻrsatiladi.</p>
+        </header>
+
+        <div class="exam" id="exam">
+          <div class="exam-start" id="examStart">
+            <p>Tayyormisiz? Test 10 ta savoldan iborat. Har bir savol uchun 1 ball.</p>
+            <button class="btn btn-primary" id="examStartBtn">Testni boshlash 🚀</button>
+          </div>
+
+          <div class="exam-run" id="examRun" hidden>
+            <div class="exam-top">
+              <span id="examCounter">1 / 10</span>
+              <div class="exam-progress"><div id="examProgress"></div></div>
+              <span id="examScore">Ball: 0</span>
+            </div>
+            <p class="exam-q" id="examQ"></p>
+            <div class="exam-opts" id="examOpts"></div>
+            <div class="exam-exp" id="examExp"></div>
+            <button class="btn btn-primary" id="examNext" hidden>Keyingisi →</button>
+          </div>
+
+          <div class="exam-result" id="examResult" hidden>
+            <div class="res-medal" id="resMedal">🏅</div>
+            <h3 id="resTitle">Natija</h3>
+            <p class="res-score" id="resScore"></p>
+            <p id="resText"></p>
+            <div class="res-review" id="resReview"></div>
+            <button class="btn btn-primary" id="examAgain">Qaytadan ishlash 🔄</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ OʻQITUVCHI BURCHAGI ============ -->
+      <section class="container chapter" id="ustoz">
+        <header class="ch-head">
+          <span class="ch-num">Oʻqituvchiga</span>
+          <h2>🎓 Oʻqituvchi uchun</h2>
+          <p class="ch-sub">Barcha savollarning javoblar kaliti, uy vazifasi va atamalar lugʻati — bir joyda.</p>
+        </header>
+
+        <!-- JAVOBLAR KALITI -->
+        <div class="answer-key">
+          <div class="ak-head">
+            <h3>🔑 Javoblar kaliti — barcha savollar bir joyda</h3>
+            <button class="btn btn-primary sm" id="akToggle">Javoblarni koʻrsatish</button>
+          </div>
+          <div class="ak-body" id="answerKey" hidden></div>
+        </div>
+
+        <!-- UY VAZIFASI -->
+        <div class="card homework">
+          <h3>🏠 Uy vazifasi</h3>
+          <ol class="hw-list">
+            <li>Daftarga 1/2, 1/3, 1/4, 2/5, 3/8 kasrlarini yozing va har biriga rasm chizing.</li>
+            <li>Qisqartiring: 6/9, 10/25, 14/21, 8/24.</li>
+            <li>Hisoblang: 2/9 + 5/9; &nbsp; 7/10 − 3/10; &nbsp; 1/3 + 1/6.</li>
+            <li>36 ta daftarning 3/4 qismi chiziqli. Nechta chiziqli daftar bor?</li>
+            <li>Notoʻgʻri kasrga aylantiring: 2 1/5; &nbsp; 4 3/7.</li>
+            <li><b>Ijodiy:</b> uydagi biror narsani (non, olma, qogʻoz) teng boʻlaklarga boʻlib, kasr bilan yozing va rasmini chizib keling.</li>
+          </ol>
+          <details class="task hw-answers">
+            <summary>✅ Uy vazifasi javoblari (oʻqituvchi uchun)</summary>
+            <div class="task-sol">
+              <p><b>2.</b> 6/9 = 2/3; 10/25 = 2/5; 14/21 = 2/3; 8/24 = 1/3</p>
+              <p><b>3.</b> 2/9 + 5/9 = 7/9; 7/10 − 3/10 = 4/10 = 2/5; 1/3 + 1/6 = 2/6 + 1/6 = 3/6 = 1/2</p>
+              <p><b>4.</b> (36 : 4) · 3 = 27 ta chiziqli daftar</p>
+              <p><b>5.</b> 2 1/5 = 11/5; 4 3/7 = 31/7</p>
+            </div>
+          </details>
+        </div>
+
+        <!-- LUGʻAT -->
+        <div class="card glossary">
+          <h3>📖 Lugʻat — atamalar</h3>
+          <dl>
+            <div><dt>Butun</dt><dd>Boʻlinmagan, toʻliq predmet yoki miqdor.</dd></div>
+            <div><dt>Kasr</dt><dd>Butunning teng boʻlaklarini ifodalovchi son.</dd></div>
+            <div><dt>Surat</dt><dd>Kasrning yuqori qismi — nechta boʻlak olingani.</dd></div>
+            <div><dt>Maxraj</dt><dd>Kasrning pastki qismi — butun nechaga boʻlingani.</dd></div>
+            <div><dt>Toʻgʻri kasr</dt><dd>Surati maxrajidan kichik kasr (1 dan kichik).</dd></div>
+            <div><dt>Notoʻgʻri kasr</dt><dd>Surati maxrajiga teng yoki undan katta kasr.</dd></div>
+            <div><dt>Aralash son</dt><dd>Butun qism va toʻgʻri kasrdan iborat son (1 3/4).</dd></div>
+            <div><dt>Teng kasrlar</dt><dd>Turlicha yozilsa ham qiymati bir xil kasrlar (1/2 = 2/4).</dd></div>
+            <div><dt>Qisqartirish</dt><dd>Surat va maxrajni umumiy boʻluvchiga boʻlish.</dd></div>
+            <div><dt>EKUB</dt><dd>Eng katta umumiy boʻluvchi — qisqartirishda ishlatiladi.</dd></div>
+            <div><dt>EKUK</dt><dd>Eng kichik umumiy karrali — umumiy maxraj topishda ishlatiladi.</dd></div>
+          </dl>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>
+          <h3>Kasrlar — butunning tili</h3>
+          <p>
+            Butun sonlar dunyoni sanashga yordam beradi, kasrlar esa uni <b>boʻlishga</b>. Bir boʻlak non,
+            chorak soat, yarim yoʻl — kasrni bilgan bola dunyoni aniqroq oʻlchaydi.
+          </p>
+        </div>
+        <div class="footer-actions">
+          <button class="btn btn-primary" id="printBtn2">🖨️ PDF qilib saqlash</button>
+          <a class="btn btn-ghost" href="#boshlash">⬆️ Boshiga qaytish</a>
+        </div>
+      </div>
+      <div class="container footer-note">Elektron oʻquv qoʻllanma · Matematika · Kasrlar mavzusi</div>
+    </footer>
+
+    <button class="fab" id="toTop" aria-label="Yuqoriga" hidden>↑</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
